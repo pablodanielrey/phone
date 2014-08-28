@@ -19,10 +19,6 @@ public interface ManagePersonsView extends IsWidget {
 	
 	interface Presenter {
 		public void updateUsers();
-		public void enroll();
-		public void persist();
-		public void transferFingerprints();
-		
 	}
 	
 }

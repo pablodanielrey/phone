@@ -1,9 +1,12 @@
 package ar.com.dcsys.phone.assistance.server;
 
+import java.util.List;
+
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import ar.com.dcsys.data.person.Person;
 import ar.com.dcsys.exceptions.DeviceException;
 import ar.com.dcsys.exceptions.PersonException;
 import ar.com.dcsys.gwt.messages.server.MessageContext;
@@ -11,9 +14,11 @@ import ar.com.dcsys.gwt.messages.server.cdi.HandlersContainer;
 import ar.com.dcsys.gwt.messages.server.handlers.MessageHandler;
 import ar.com.dcsys.gwt.messages.shared.TransportEvent;
 import ar.com.dcsys.gwt.messages.shared.TransportReceiver;
+import ar.com.dcsys.model.PersonsManager;
 import ar.com.dcsys.model.device.DevicesManager;
 import ar.com.dcsys.model.device.EnrollAction;
 import ar.com.dcsys.model.device.EnrollManager;
+import ar.com.dcsys.person.server.PersonSerializer;
 import ar.com.dcsys.security.Fingerprint;
 
 
@@ -23,6 +28,8 @@ public class PhoneMessageHandler implements MessageHandler {
 	
 	private final Event<TransportEvent> cdibus;
 	private final DevicesManager devicesManager;
+	private final PersonsManager personsManager;
+	private final PersonSerializer personSerializer;
 	
 	/**
 	 * Se registra dentro de los habdlers de los mensajes.
@@ -36,9 +43,11 @@ public class PhoneMessageHandler implements MessageHandler {
 	
 	
 	@Inject
-	public PhoneMessageHandler(Event<TransportEvent> bus, DevicesManager devicesManager) {
+	public PhoneMessageHandler(Event<TransportEvent> bus, DevicesManager devicesManager, PersonsManager personsManager, PersonSerializer personSerializer) {
 		this.cdibus = bus;
 		this.devicesManager = devicesManager;
+		this.personsManager = personsManager;
+		this.personSerializer = personSerializer;
 	}
 	
 	
@@ -72,9 +81,45 @@ public class PhoneMessageHandler implements MessageHandler {
 	@Override
 	public boolean handle(final String id, String msg, final MessageContext ctx) {
 
-		if (!msg.startsWith("enroll;")) {
-			return false;
+		if (msg.startsWith("enroll;")) {
+			handleEnroll(id, msg, ctx);
+			return true;
 		}
+
+		if (msg.startsWith("userList")) {
+			handleUserList(id,msg,ctx);
+			return true;
+		}
+		
+
+		return false;
+	}
+	
+	
+	// TODO: mejorar el formato de mensaje.
+	// TODO: armar un serializador de listas. o incluir en los serializers las listas.
+	private void handleUserList(final String id, String msg, final MessageContext ctx) {
+
+		try {
+			List<Person> persons = personsManager.findAll();
+			StringBuilder sb = new StringBuilder();
+			sb.append("OK");
+			for (Person p : persons) {
+				String json = personSerializer.toJson(p);
+				sb.append(json).append(";-;-;");
+			}
+			String resp = sb.toString();
+			sendResponse(id, ctx, resp);
+		
+		} catch (PersonException e) {
+			sendResponse(id, ctx, "ERROR" + e.getMessage());
+		}		
+		
+		
+	}	
+	
+	
+	private void handleEnroll(final String id, String msg, final MessageContext ctx) {
 
 		String personId = msg.substring("enroll;".length());
 		
@@ -97,7 +142,9 @@ public class PhoneMessageHandler implements MessageHandler {
 			sendResponse(id, ctx, e.getMessage());
 		}		
 		
-		return true;
+		
 	}
+	
+	
 
 }

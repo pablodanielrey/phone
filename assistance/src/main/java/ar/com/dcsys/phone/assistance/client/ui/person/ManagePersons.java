@@ -6,6 +6,9 @@ import java.util.List;
 import ar.com.dcsys.data.person.Person;
 import ar.com.dcsys.phone.assistance.client.cell.PersonCell;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
@@ -46,6 +49,7 @@ public class ManagePersons extends Composite implements ManagePersonsView {
 	
 	private Presenter p;
 	private List<Person> persons;
+	private Button update;
 	
 	private void createUsers() {
 		users = new CellList<Person>(new PersonCell());
@@ -53,8 +57,22 @@ public class ManagePersons extends Composite implements ManagePersonsView {
 	}
 	
 	public ManagePersons() {
+		
+		update = new Button("Actualizar Usuarios");
+		update.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (p == null) {
+					return;
+				}
+				p.updateUsers();
+			}
+		});
+		panel.add(update);
+		
 		createUsers();
 		panel.add(users);
+	
 		
 		initWidget(panel);
 	}

@@ -108,7 +108,29 @@
     </dependency>
 -->
 
-<!-- para que funcione la generacion de codigo -->
+<!-- para que funcione la transmision por websocket -->
+
+    <dependency>
+      <groupId>ar.com.dcsys.pr</groupId>
+      <artifactId>serializers</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>ar.com.dcsys.pr</groupId>
+      <artifactId>annotations</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ar.com.dcsys.pr</groupId>
+      <artifactId>personSerializers</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>javax.enterprise</groupId>
@@ -137,6 +159,8 @@
       <version>1.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+
+
 
 
 <!-- parte movil -->
@@ -221,6 +245,8 @@
               <artifact>ar.com.dcsys.gwt.utils:webSocketGWT</artifact>          
               <artifact>ar.com.dcsys.gwt.utils:messagesGWT</artifact>          
               <artifact>ar.com.dcsys.gwt.utils:utilsGWT</artifact>          
+	      <artifact>ar.com.dcsys.pr:annotations</artifact>
+	      <artifact>ar.com.dcsys.pr:personSerializers</artifact>
 
               <artifact>ar.com.dcsys.data:personEntities</artifact>
 <!--              <artifact>ar.com.dcsys.gwt.person:personViewsGWT</artifact> -->
