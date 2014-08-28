@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='assistancePhone'>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User' />
+
+  <!-- We need the JUnit module in the main module,               -->
+  <!-- otherwise eclipse complains (Google plugin bug?)           -->
+  <inherits name='com.google.gwt.junit.JUnit' />
+
+  <!-- Inherit the default GWT style sheet.  You can change       -->
+  <!-- the theme of your GWT application by uncommenting          -->
+  <!-- any one of the following lines.                            -->
+  <inherits name='com.google.gwt.user.theme.standard.Standard' />
+  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+
+  <inherits name="com.google.gwt.inject.Inject"/>
+  
+  <inherits name="com.googlecode.mgwt.MGWT"/>
+  <!--  <set-property name="mgwt.os" value="android_tablet"/> -->
+  
+  
+  <inherits name="ar.com.dcsys.PersonEntities"/>
+<!-- <inherits name="ar.com.dcsys.gwt.person.PersonViewsGWT"/> -->
+    
+  <!-- Other module inherits                                      -->
+  
+  
+  <!--  para el  super dev mode  -->
+<!-- 
+	<add-linker name="xsiframe"/>
+	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
+	<set-configuration-property name="mgwt.superdevmode" value="on" />
+-->
+ <!--  <set-configuration-property name="mgwt.superdevmode_host" value="http://<yourhost>:<port>" /> -->
+  
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='ar.com.dcsys.phone.assistance.client.assistancePhone' />
+
+  <set-property name="user.agent" value="safari"/>
+
+  
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client' />
+  <source path='shared' />
+
+</module>
