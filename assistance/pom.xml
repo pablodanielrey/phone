@@ -20,6 +20,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
+<java.version>1.7</java.version>
 <cdi.version>1.1</cdi.version>
 <gin.version>2.1.2</gin.version>
 <mgwt.version>2.0.0-rc1</mgwt.version>
@@ -33,13 +34,13 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
       <version>${gwtVersion}</version>
-<!--      <scope>runtime</scope> -->
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwtVersion}</version>
-<!--      <scope>provided</scope> -->
+      <scope>provided</scope>
     </dependency>
 
 <!--
@@ -73,12 +74,30 @@
     </dependency>
 -->
 
+
+
     <dependency>
       <groupId>ar.com.dcsys.data</groupId>
       <artifactId>personEntities</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>ar.com.dcsys.model</groupId>
+      <artifactId>assistanceModel</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ar.com.dcsys.security</groupId>
+      <artifactId>fingerprintCredentials</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+
+
 
 <!--
     <dependency>
@@ -95,21 +114,28 @@
       <groupId>javax.enterprise</groupId>
       <artifactId>cdi-api</artifactId>
       <version>${cdi.version}</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>ar.com.dcsys.gwt.utils</groupId>
       <artifactId>utilsGWT</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>ar.com.dcsys.gwt.utils</groupId>
       <artifactId>webSocketGWT</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>ar.com.dcsys.gwt.utils</groupId>
+      <artifactId>messagesGWT</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
     </dependency>
 
 
@@ -127,7 +153,7 @@
       <groupId>com.google.gwt.inject</groupId>
       <artifactId>gin</artifactId>
       <version>${gin.version}</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
 
 
@@ -145,6 +171,17 @@
     <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 
     <plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                  <source>${java.version}</source>
+                  <target>${java.version}</target>
+<!--                    <compilerArgument>-proc:none</compilerArgument> -->
+                </configuration>
+            </plugin>
+
+
 
       <!-- GWT Maven Plugin -->
       <plugin>
@@ -182,9 +219,11 @@
 		<artifact>ar.com.dcsys.data:personEntities</artifact>
 
               <artifact>ar.com.dcsys.gwt.utils:webSocketGWT</artifact>          
+              <artifact>ar.com.dcsys.gwt.utils:messagesGWT</artifact>          
+              <artifact>ar.com.dcsys.gwt.utils:utilsGWT</artifact>          
 
               <artifact>ar.com.dcsys.data:personEntities</artifact>
-              <artifact>ar.com.dcsys.gwt.person:personViewsGWT</artifact>
+<!--              <artifact>ar.com.dcsys.gwt.person:personViewsGWT</artifact> -->
 
 
 <!--

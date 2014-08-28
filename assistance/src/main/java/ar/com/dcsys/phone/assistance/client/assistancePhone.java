@@ -1,5 +1,7 @@
 package ar.com.dcsys.phone.assistance.client;
 
+import ar.com.dcsys.gwt.ws.client.WebSocket;
+import ar.com.dcsys.gwt.ws.shared.SocketException;
 import ar.com.dcsys.phone.assistance.client.activity.AssistanceActivityMapper;
 import ar.com.dcsys.phone.assistance.client.gin.Injector;
 import ar.com.dcsys.phone.assistance.client.phone.PhoneAnimationMapper;
@@ -59,6 +61,16 @@ public class assistancePhone implements EntryPoint {
 		historyHandler.register(injector.placeController(), injector.eventbus(), new UsersPlace());
 	}
 	
+	
+	private void createWebSocket() {
+		WebSocket ws = injector.webSocket();
+		try {
+			ws.open();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private Injector injector = GWT.create(Injector.class);
 	private AnimatingActivityManager amanager;
 	private AssistanceActivityMapper amapper;
@@ -73,6 +85,8 @@ public class assistancePhone implements EntryPoint {
 		configureViewPort();
 		createPhoneDisplay();
 		createHistory();
+	
+		createWebSocket();
 		
 		historyHandler.handleCurrentHistory();
 	}

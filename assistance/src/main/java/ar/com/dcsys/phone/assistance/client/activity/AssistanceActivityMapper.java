@@ -1,7 +1,5 @@
 package ar.com.dcsys.phone.assistance.client.activity;
 
-import javax.inject.Inject;
-
 import ar.com.dcsys.phone.assistance.client.gin.AssistedInjectionFactory;
 import ar.com.dcsys.phone.assistance.client.place.PersonDataPlace;
 import ar.com.dcsys.phone.assistance.client.place.UsersPlace;
@@ -9,6 +7,7 @@ import ar.com.dcsys.phone.assistance.client.place.UsersPlace;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+import com.google.inject.Inject;
 
 public class AssistanceActivityMapper implements ActivityMapper {
 

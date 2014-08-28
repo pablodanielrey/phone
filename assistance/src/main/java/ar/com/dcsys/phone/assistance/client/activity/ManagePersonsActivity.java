@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-
 import ar.com.dcsys.data.person.Person;
+import ar.com.dcsys.gwt.utils.client.GUID;
 import ar.com.dcsys.phone.assistance.client.place.PersonDataPlace;
 import ar.com.dcsys.phone.assistance.client.ui.person.ManagePersonsView;
 import ar.com.dcsys.phone.assistance.client.ui.person.PersonDataView;
@@ -21,6 +20,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.inject.Inject;
 
 public class ManagePersonsActivity extends AbstractActivity implements ManagePersonsView.Presenter, PersonDataView.Presenter {
 
@@ -58,8 +58,9 @@ public class ManagePersonsActivity extends AbstractActivity implements ManagePer
 	}
 	
 	
-	private Person createPerson(String n, String l, String d) {
+	private Person createPerson(String id, String n, String l, String d) {
 		Person p = new Person();
+		p.setId(id);
 		p.setName(n);
 		p.setLastName(l);
 		p.setDni(d);
@@ -69,14 +70,13 @@ public class ManagePersonsActivity extends AbstractActivity implements ManagePer
 	@Override
 	public void updateUsers() {
 		selection.clear();
-		
-		
+
 		
 		// genero usuarios de prueba.
 		List<Person> l = new ArrayList<Person>();
-		l.add(createPerson("Pablo", "Rey", "27294557"));
-		l.add(createPerson("Martin", "Gomez", "27485499"));
-		l.add(createPerson("Ptt", "Morat", "29795084"));
+		l.add(createPerson(GUID.get(),"Pablo", "Rey", "27294557"));
+		l.add(createPerson(GUID.get(),"Martin", "Gomez", "27485499"));
+		l.add(createPerson(GUID.get(),"Ptt", "Morat", "29795084"));
 
 		view.setPersons(l);
 		

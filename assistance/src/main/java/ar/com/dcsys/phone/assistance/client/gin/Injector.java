@@ -1,5 +1,6 @@
 package ar.com.dcsys.phone.assistance.client.gin;
 
+import ar.com.dcsys.gwt.ws.client.WebSocket;
 import ar.com.dcsys.gwt.ws.client.gin.WsGinModule;
 import ar.com.dcsys.phone.assistance.client.activity.AssistanceActivityMapper;
 import ar.com.dcsys.phone.assistance.client.phone.PhoneAnimationMapper;
@@ -22,6 +23,8 @@ public interface Injector extends Ginjector {
 	
 	public AssistanceActivityMapper assistanceActivityMapper();
 	public PhoneAnimationMapper phoneAnimationMapper();
+	
+	public WebSocket webSocket();
 	
 //	public WebSocket ws();
 

@@ -19,6 +19,9 @@
   <inherits name="com.googlecode.mgwt.MGWT"/>
   <!--  <set-property name="mgwt.os" value="android_tablet"/> -->
   
+  <inherits name="ar.com.dcsys.gwt.ws.WsGWT"/>
+  <inherits name="ar.com.dcsys.gwt.messages.MessagesGWT"/>
+  <inherits name="ar.com.dcsys.gwt.utils.UtilsGWT"/>
   
   <inherits name="ar.com.dcsys.PersonEntities"/>
 <!-- <inherits name="ar.com.dcsys.gwt.person.PersonViewsGWT"/> -->
