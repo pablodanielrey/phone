@@ -114,12 +114,75 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 
 	@Override
 	public void persist() {
-		placeController.goTo(new UsersPlace());
+		
+		if (person == null || person.getId() == null) {
+			if (view != null) {
+				view.showMessage("person.id == null");
+			}
+			return;
+		}
+
+		String personId = person.getId();
+		String cmd = "persistPerson;" + personId;
+		
+		try {
+			ws.open();
+			ws.send(cmd, new TransportReceiver() {
+				@Override
+				public void onSuccess(String message) {
+					if (view != null) {
+						view.showMessage(message == null ? "null" : message);
+					}
+				}
+				
+				@Override
+				public void onFailure(String error) {
+					if (view != null) {
+						view.showMessage(error == null ? "null" : error);
+					}
+				}
+			});
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}		
+		
 	}
 
 	@Override
 	public void transferFingerprints() {
-		placeController.goTo(new UsersPlace());
+
+		if (person == null || person.getId() == null) {
+			if (view != null) {
+				view.showMessage("person.id == null");
+			}
+			return;
+		}
+
+		String personId = person.getId();
+		String cmd = "transferFingerprints;" + personId;
+		
+		try {
+			ws.open();
+			ws.send(cmd, new TransportReceiver() {
+				@Override
+				public void onSuccess(String message) {
+					if (view != null) {
+						view.showMessage(message == null ? "null" : message);
+					}
+				}
+				
+				@Override
+				public void onFailure(String error) {
+					if (view != null) {
+						view.showMessage(error == null ? "null" : error);
+					}
+				}
+			});
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}		
+	
+	
 	}
 	
 	

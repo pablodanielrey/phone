@@ -81,17 +81,26 @@ public class PhoneMessageHandler implements MessageHandler {
 	@Override
 	public boolean handle(final String id, String msg, final MessageContext ctx) {
 
-		if (msg.startsWith("enroll;")) {
-			handleEnroll(id, msg, ctx);
-			return true;
-		}
-
 		if (msg.startsWith("userList")) {
 			handleUserList(id,msg,ctx);
 			return true;
 		}
 		
+		if (msg.startsWith("enroll;")) {
+			handleEnroll(id, msg, ctx);
+			return true;
+		}
 
+		if (msg.startsWith("persistPerson;")) {
+			handlePersistPerson(id, msg, ctx);
+			return true;
+		}
+
+		if (msg.startsWith("transferFingerprints;")) {
+			handleTransferFingerprints(id, msg, ctx);
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -119,6 +128,7 @@ public class PhoneMessageHandler implements MessageHandler {
 	}	
 	
 	
+	
 	private void handleEnroll(final String id, String msg, final MessageContext ctx) {
 
 		String personId = msg.substring("enroll;".length());
@@ -143,8 +153,38 @@ public class PhoneMessageHandler implements MessageHandler {
 		}		
 		
 		
+	}	
+	
+	private void handlePersistPerson(final String id, String msg, final MessageContext ctx) {
+
+		String personId = msg.substring("persistPerson;".length());
+		
+		try {
+			Person p = personsManager.findById(personId);
+			devicesManager.persist(p);
+			sendResponse(id, ctx, "Usuario actualizado correctamente");			
+		
+		} catch (PersonException | DeviceException e) {
+			sendResponse(id, ctx, e.getMessage());
+		}		
+		
+		
 	}
 	
+	private void handleTransferFingerprints(final String id, String msg, final MessageContext ctx) {
+
+		String personId = msg.substring("transferFingerprints;".length());
+		
+		try {
+			devicesManager.transferFingerprints(personId);
+			sendResponse(id, ctx, "Transferencia exitosa");
+		
+		} catch (PersonException | DeviceException e) {
+			sendResponse(id, ctx, e.getMessage());
+		}		
+		
+		
+	}
 	
 
 }
