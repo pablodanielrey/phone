@@ -2,6 +2,7 @@ package ar.com.dcsys.phone.assistance.client.place;
 
 import ar.com.dcsys.data.person.Person;
 
+import com.google.gwt.http.client.URL;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 
@@ -13,9 +14,14 @@ public class PersonDataPlace extends Place {
 		this.person = person;
 	}
 	
-	public PersonDataPlace(String token) { 
+	public PersonDataPlace(String id, String dni, String name, String lastname) {
+		
 		person = new Person();
-		person.setDni(token);
+		person.setId(id);
+		person.setDni(dni);
+		person.setName(name);
+		person.setLastName(lastname);
+		
 	}
 	
 	public PersonDataPlace() { }
@@ -28,12 +34,35 @@ public class PersonDataPlace extends Place {
 
 		@Override
 		public PersonDataPlace getPlace(String token) {
-			return new PersonDataPlace(token);
+			
+			String decoded = URL.decode(token);
+			String[] params = decoded.split(";");
+			
+			if (params.length < 4) {
+				return new PersonDataPlace();
+			} else {
+				String id = params[0];
+				String dni = params[1];
+				String name = params[2];
+				String lastname = params[3];
+				
+				return new PersonDataPlace(id,dni,name,lastname);
+			}
 		}
 
 		@Override
 		public String getToken(PersonDataPlace place) {
-			return place.getPerson().getDni();
+			
+			Person person = place.getPerson();
+			String id = person.getId();
+			String dni = person.getDni();
+			String name = person.getName();
+			String lastname = person.getLastName();
+			
+			String decoded = id + ";" + dni + ";" + name + ";" + lastname;
+			String token = URL.encode(decoded);
+			
+			return token;
 		}
 		
 	}

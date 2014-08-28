@@ -95,12 +95,16 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 			ws.send(cmd, new TransportReceiver() {
 				@Override
 				public void onSuccess(String message) {
-					Window.alert(message == null ? "null" : message);
+					if (view != null) {
+						view.showMessage(message == null ? "null" : message);
+					}
 				}
 				
 				@Override
 				public void onFailure(String error) {
-					Window.alert(error == null ? "null" : error);
+					if (view != null) {
+						view.showMessage(error == null ? "null" : error);
+					}
 				}
 			});
 		} catch (SocketException e) {
