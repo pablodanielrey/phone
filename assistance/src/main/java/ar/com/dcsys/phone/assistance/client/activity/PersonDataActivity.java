@@ -7,14 +7,14 @@ import ar.com.dcsys.gwt.messages.shared.TransportReceiver;
 import ar.com.dcsys.gwt.ws.client.WebSocket;
 import ar.com.dcsys.gwt.ws.shared.SocketException;
 import ar.com.dcsys.phone.assistance.client.place.PersonDataPlace;
-import ar.com.dcsys.phone.assistance.client.place.UsersPlace;
 import ar.com.dcsys.phone.assistance.client.ui.person.PersonDataView;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -80,6 +80,8 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 	@Override
 	public void enroll() {
 		
+		clearMessage();
+		
 		if (person == null || person.getId() == null) {
 			if (view != null) {
 				view.showMessage("person.id == null");
@@ -96,7 +98,18 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 				@Override
 				public void onSuccess(String message) {
 					if (view != null) {
-						view.showMessage(message == null ? "null" : message);
+						//view.showMessage(message == null ? "null" : message);
+						view.showMessage("Transfiriendo la persona la reloj");
+						
+						// TODO: ver como atomizar estas operaciones.
+						Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+							@Override
+							public void execute() {
+								persist();
+							}
+						});
+						
+						
 					}
 				}
 				
@@ -112,8 +125,17 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 		}
 	}
 
+	private void clearMessage() {
+		if (view != null) {
+			view.showMessage("");
+		}
+	}
+	
+	
 	@Override
 	public void persist() {
+
+		clearMessage();
 		
 		if (person == null || person.getId() == null) {
 			if (view != null) {
@@ -131,7 +153,18 @@ public class PersonDataActivity extends AbstractActivity implements PersonDataVi
 				@Override
 				public void onSuccess(String message) {
 					if (view != null) {
-						view.showMessage(message == null ? "null" : message);
+						//view.showMessage(message == null ? "null" : message);
+						view.showMessage("Transfiriendo huellas hacia el lector.");
+						
+						// TODO: ver como atomizar estas operaciones.
+						Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+							@Override
+							public void execute() {
+								transferFingerprints();
+							}
+						});
+						
+						
 					}
 				}
 				
